@@ -25,7 +25,7 @@ function Menu() {
                 <button className="Add_to_Cart">
                     <ul>
                         <li>
-                            <Link to="/home/shistiiii/Documents/shistii/Kings_Canteen/src/Cart_Page.jsx"> Add to Cart</Link>
+                            <Link to="/cart"> Add to Cart</Link>
                         </li>
                     </ul>
                 </button>
