@@ -269,17 +269,17 @@ const app = express();
 
 
 
-// app.get("/api/s", (req, res) => {
-//     res.json(products)
-// });
+app.get("/api/products", (req, res) => {
+    res.json(products)
+});
 
 
 //API
-app.use("/api/import", ImportData);
+// app.use("/api/import", ImportData);
 
 
 app.get("/", (req, res) => {
-    res.send("WelcomeAPI is running......");
+    res.send("WelcomeAPI is running...... Hello These is Binit");
 });
 const PORT = process.env.PORT || 1000;
 

@@ -297,7 +297,21 @@
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
 import Cart_logo from './Images/Cart_icon.png';
-import products from "../../data/Products"; // Import your product data
+//import products from "../../data/Products"; // Import your product data
+import axios from "axios"
+
+
+const ShopSection = () => {
+  const [products, setProducts] = useState([])
+  useEffect(() => {
+    const fetchproducts = async() => {
+      const {data} = await axios.get("/api/products") 
+      setProducts(data);
+
+    };
+    fetchproducts();
+  }, []);
+}
 
 function Home_Page() {
   const [currentCategory, setCurrentCategory] = useState("All");
