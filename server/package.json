@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
+  "proxy": "https://localhost:3000",
   "main": "server.js",
 
 
