@@ -276,6 +276,7 @@ const app = express();
 
 //API
 app.use("/api/import", ImportData);
+// app.use("/api/products", productRoute);
 
 
 app.get("/", (req, res) => {
