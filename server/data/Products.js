@@ -1,4 +1,4 @@
-const product = [
+const products = [
     {
       title: 'Chicken Momo',
       Image: 'public/images/momo.png',
@@ -105,6 +105,5 @@ const product = [
       type: 'drinks',
     },
   ];
-  
-  export default product;
+export default products;
   
