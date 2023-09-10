@@ -3,7 +3,7 @@
 {
     width:100%;
     height:920px;
-    background-image: url('./Images/background1.png');
+    background-image: url('./public/Images/background-image.png');
     background-repeat: no-repeat;
     background-size: cover;
     display:flex;
@@ -90,7 +90,7 @@ color:#2A4147;
 {
     width:100%;
     /* height:1200px; */
-    background-image: url('./Images/background2.png');
+    background-image: url('./public/Images/background2.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     display:flex;

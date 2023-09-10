@@ -294,28 +294,161 @@
 
 
 
-import React, { useState } from "react";
+// import React, { useEffect, useState } from "react";
+// import { Link } from 'react-router-dom';
+// import Cart_logo from './Images/Cart_icon.png';
+// //import products from "../../data/Products"; // Import your product data
+// import axios from "axios";
+// import Message from "./../components/LoadingError/Error";
+// import { useDispatch, useSelector } from  "react-redux";
+// import { listProductDetails } from "../Redux/Actions/ProductActions";
+// import Loading from "../components/LoadingError/Loading";
+
+
+// const Home_Page = ({ history, match }) => {
+//   const [qty , setQty] = useState(1);
+//   const productID = match.params.id;
+//   const dispatch = useDispatch();
+
+//   const productDetails = useSelector((state) => state.productDetails);
+//   const { loading, error, product } = productDetails;
+
+//   useEffect(() => {
+//     dispatch(listProductDetails(productID));
+//   }, [dispatch, productID]);
+
+//   const [products, setProducts] = useState([])
+//   useEffect(() => {
+//     const fetchproducts = async() => {
+//       const {data} = await axios.get("/api/products") 
+//       setProducts(data);
+
+//     };
+//     fetchproducts();
+//   }, []);
+
+
+// function Home_Page() {
+//   const [currentCategory, setCurrentCategory] = useState("All");
+//   const [itemCounts, setItemCounts] = useState({}); // Initialize itemCounts as an empty object
+
+//   const Increment = (productId) => {
+//     setItemCounts((prevCounts) => ({
+//       ...prevCounts,
+//       [productId]: (prevCounts[productId] || 0) + 1,
+//     }));
+//   }
+
+//   const Decrement = (productId) => {
+//     if (itemCounts[productId] > 1) {
+//       setItemCounts((prevCounts) => ({
+//         ...prevCounts,
+//         [productId]: prevCounts[productId] - 1,
+//       }));
+//     }
+//   }
+
+//   const filterProductsByCategory = (category) => {
+//     if (category === "All") {
+//       return products;
+//     } else {
+//       return products.filter(product => product.category === category);
+//     }
+//   }
+
+
+
+//   const AddToCartHandle = (e) => {
+//     e.preventDefault();
+//     history.push(`/cart/${productId}?qty=${qty}`);
+//   };
+//   return (
+//     <>
+//       <div className="Home_page">
+//         <div className="Canteen">
+//           <div className="Kings_Canteen">
+//             <h1>King's</h1>
+//             <h1>Canteen</h1>
+//           </div>
+//           <div className="Grab_a_bite">
+//             <h1><i>grab a</i></h1>
+//             <h1><i>bite!</i></h1>
+//           </div>
+//         </div>
+//         <div className="Container">
+//           <div className="Nav_bar">
+//             {/* Your navigation bar */}
+//             <img src={Cart_logo} height={55} alt="Cart" />
+//           </div>
+//           <div className="Menu">
+//             {filterProductsByCategory(currentCategory).map((product, i) => (
+//               <div key={i} className="All_Menu">
+//                 <img src={product.image} height={150} width={150} alt={product.title} />
+//                 <h1>{product.title}</h1>
+//                 <div className="items">
+//                   <div className="quant">
+//                     <div className="btn" onClick={() => Decrement(product._id)}>-</div>
+//                     <div>{itemCounts[product._id] || 0}</div>
+//                     <div className="btn" onClick={() => Increment(product._id)}>+</div>
+//                   </div>
+//                   <div className="price">Rs {product.price}</div>
+//                 </div>
+//                 <button onClick = {AddToCartHandle} className="Add_to_Cart">
+//                   <ul>
+//                     <li>
+//                       <Link to={`/products/${product._id}`}>
+//                         Add to Cart
+//                       </Link>
+//                     </li>
+//                   </ul>
+//                 </button>
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+//       </div>
+//     </>
+//   );
+// }
+
+// export default Home_Page;
+
+
+import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import Cart_logo from './Images/Cart_icon.png';
-//import products from "../../data/Products"; // Import your product data
-import axios from "axios"
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { listProductDetails } from "../Redux/Actions/ProductActions";
 
+const Home_Page = ({ history, match }) => {
+  const [qty, setQty] = useState(1);
+  const productID = match.params.id;
+  const dispatch = useDispatch();
 
-const ShopSection = () => {
-  const [products, setProducts] = useState([])
+  const productDetails = useSelector((state) => state.productDetails);
+  const { loading, error, product } = productDetails;
+
   useEffect(() => {
-    const fetchproducts = async() => {
-      const {data} = await axios.get("/api/products") 
-      setProducts(data);
+    dispatch(listProductDetails(productID));
+  }, [dispatch, productID]);
 
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const { data } = await axios.get("/api/products");
+        setProducts(data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
     };
-    fetchproducts();
+    fetchProducts();
   }, []);
-}
 
-function Home_Page() {
   const [currentCategory, setCurrentCategory] = useState("All");
-  const [itemCounts, setItemCounts] = useState({}); // Initialize itemCounts as an empty object
+  const [itemCounts, setItemCounts] = useState({});
 
   const Increment = (productId) => {
     setItemCounts((prevCounts) => ({
@@ -341,6 +474,11 @@ function Home_Page() {
     }
   }
 
+  const AddToCartHandle = (e, productId) => {
+    e.preventDefault();
+    history.push(`/cart/${productId}?qty=${qty}`);
+  };
+
   return (
     <>
       <div className="Home_page">
@@ -356,7 +494,6 @@ function Home_Page() {
         </div>
         <div className="Container">
           <div className="Nav_bar">
-            {/* Your navigation bar */}
             <img src={Cart_logo} height={55} alt="Cart" />
           </div>
           <div className="Menu">
@@ -372,7 +509,7 @@ function Home_Page() {
                   </div>
                   <div className="price">Rs {product.price}</div>
                 </div>
-                <button className="Add_to_Cart">
+                <button onClick={(e) => AddToCartHandle(e, product._id)} className="Add_to_Cart">
                   <ul>
                     <li>
                       <Link to={`/products/${product._id}`}>
